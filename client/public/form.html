@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Form</title>
+</head>
+<body>
+  <h2>Contact Me</h2>
+  <form id="contactForm">
+    <input type="text" name="name" placeholder="Name" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+    <textarea name="message" placeholder="Message"></textarea><br>
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      const res = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+      alert(result.success ? 'Message sent!' : 'Failed to send');
+    });
+  </script>
+</body>
+</html>
